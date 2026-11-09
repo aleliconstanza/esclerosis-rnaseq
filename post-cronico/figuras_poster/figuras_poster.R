@@ -238,42 +238,57 @@ p5 <- ggplot(curados, aes(simbolo, ventana_r)) +
 guardar(p5, "Fig5_genes_curados", 11, 4.8)
 
 # ============================================================
-# Fig. 6 — Trayectoria de Hes5 (+ sensibilidad solo hembras si existe)
+# Fig. 6 — Hes5 frente a genes de mielina (recuperación disociada)
+#   Mbp/Plp1/Mog caen en la fase crónica y vuelven al nivel control desde
+#   16 sem; Hes5 solo baja a 24 sem. Punto relleno = padj < 0,05.
+#   Si existe el análisis solo hembras, se agrega como rombo azul en 24 sem.
 # ============================================================
-cat("Fig. 6: trayectoria de Hes5\n")
-hes5 <- deseq %>% filter(simbolo == "Hes5", comparacion %in% REMIE) %>%
-  etiquetar() %>% mutate(ventana = droplevels(ventana), analisis = "Todas las muestras")
+cat("Fig. 6: Hes5 y genes de mielina\n")
+genes6 <- c("Hes5", "Mbp", "Plp1", "Mog")
+col6 <- c(Hes5 = NARANJA, Mbp = "#5B7FA6", Plp1 = "#2F4F7F", Mog = "#8FA9C8")
+d6 <- deseq %>% filter(simbolo %in% genes6) %>% etiquetar() %>%
+  mutate(x = as.numeric(ventana), sig = !is.na(padj) & padj < PADJ,
+         simbolo = factor(simbolo, levels = genes6))
 
+hembras <- NULL
 ruta_ext <- file.path(ruta_tablas, "DESeq2_extendido.csv")
 if (file.exists(ruta_ext)) {
-  ext <- read.csv2(ruta_ext, stringsAsFactors = FALSE)[, deseq_cols] %>%
-    filter(simbolo == "Hes5", comparacion == "Postcronico24w_hembras_vs_Control24w_hembras")
-  if (nrow(ext) == 1) {
-    hes5 <- bind_rows(hes5, ext %>% mutate(ventana = factor("24 sem", levels = levels(hes5$ventana)),
-                                           analisis = "Solo hembras (sensibilidad)"))
-  }
+  hembras <- read.csv2(ruta_ext, stringsAsFactors = FALSE)[, deseq_cols] %>%
+    filter(simbolo == "Hes5", comparacion == "Postcronico24w_hembras_vs_Control24w_hembras") %>%
+    mutate(x = 4.22, sig = !is.na(padj) & padj < PADJ)
+  if (nrow(hembras) == 0) hembras <- NULL
 }
-hes5 <- hes5 %>% mutate(
-  lab = ifelse(padj < 0.001, "padj < 0,001", paste0("padj = ", formatC(padj, format = "f", digits = 2, decimal.mark = ","))),
-  x = as.numeric(ventana) + ifelse(analisis == "Todas las muestras", 0, 0.18))
-principal <- hes5 %>% filter(analisis == "Todas las muestras")
-p6 <- ggplot(hes5, aes(x, log2FoldChange)) +
+
+# Etiquetas al final de cada línea, separadas para que no se encimen
+etiq6 <- d6 %>% filter(x == max(x)) %>% arrange(log2FoldChange) %>%
+  mutate(y_lab = log2FoldChange)
+sep <- 0.17
+for (i in seq_len(nrow(etiq6))[-1]) etiq6$y_lab[i] <- max(etiq6$y_lab[i], etiq6$y_lab[i - 1] + sep)
+p6 <- ggplot(d6, aes(x, log2FoldChange, color = simbolo, group = simbolo)) +
   geom_hline(yintercept = 0, linetype = "dashed", color = GRIS) +
-  geom_line(data = principal, color = OXIDO, linewidth = 1.6) +
-  geom_errorbar(aes(ymin = log2FoldChange - lfcSE, ymax = log2FoldChange + lfcSE, color = analisis),
-                width = 0.08, linewidth = 1.2) +
-  geom_point(aes(shape = analisis, fill = padj < PADJ, color = analisis), size = 7, stroke = 1.8) +
-  geom_text(data = principal, aes(x = x + 0.13, label = lab), hjust = 0, vjust = -0.6, size = 6, color = "grey20") +
-  scale_x_continuous(breaks = seq_along(levels(principal$ventana)), labels = levels(principal$ventana),
-                     expand = expansion(add = c(0.3, 0.75))) +
-  scale_shape_manual(values = c("Todas las muestras" = 21, "Solo hembras (sensibilidad)" = 23), name = NULL) +
-  scale_color_manual(values = c("Todas las muestras" = OXIDO, "Solo hembras (sensibilidad)" = AZUL), name = NULL) +
-  scale_fill_manual(values = c(`TRUE` = NARANJA, `FALSE` = "white"), guide = "none") +
-  scale_y_continuous(expand = expansion(mult = c(0.15, 0.25))) +
-  labs(x = NULL, y = expression(bold(italic("Hes5")~log[2]*FC~"vs control"))) + tema +
-  theme(legend.position = if (n_distinct(hes5$analisis) > 1) "bottom" else "none",
-        axis.title.y = element_text(size = 20))
-guardar(p6, "Fig6_trayectoria_Hes5", 11, 4.8)
+  geom_vline(xintercept = 1.5, linetype = "dashed", color = OXIDO) +
+  annotate("text", x = 1.55, y = Inf, label = " retiro →", hjust = 0, vjust = 1.3,
+           color = OXIDO, size = 5.5, fontface = "italic") +
+  geom_line(data = filter(d6, x >= 2), aes(linewidth = simbolo == "Hes5")) +
+  geom_errorbar(data = filter(d6, simbolo == "Hes5"),
+                aes(ymin = log2FoldChange - lfcSE, ymax = log2FoldChange + lfcSE), width = 0.08, linewidth = 1) +
+  geom_point(aes(fill = ifelse(sig, as.character(simbolo), "ns")), shape = 21, size = 5.5, stroke = 1.6) +
+  geom_text(data = etiq6, aes(x = x + 0.12, y = y_lab, label = simbolo), hjust = 0, size = 6.5,
+            fontface = "bold.italic", show.legend = FALSE) +
+  scale_linewidth_manual(values = c(`TRUE` = 2, `FALSE` = 1), guide = "none") +
+  scale_color_manual(values = col6, guide = "none") +
+  scale_fill_manual(values = c(col6, ns = "white"), guide = "none") +
+  scale_x_continuous(breaks = 1:4, labels = levels(d6$ventana), expand = expansion(add = c(0.3, 0.7))) +
+  labs(x = NULL, y = expression(bold(log[2]*FC~"vs control"))) + tema +
+  theme(axis.title.y = element_text(size = 20), axis.text.x = element_text(size = 18))
+if (!is.null(hembras)) {
+  p6 <- p6 +
+    geom_errorbar(data = hembras, aes(x = x, ymin = log2FoldChange - lfcSE, ymax = log2FoldChange + lfcSE),
+                  inherit.aes = FALSE, width = 0.06, color = AZUL, linewidth = 1) +
+    geom_point(data = hembras, aes(x = x, y = log2FoldChange), inherit.aes = FALSE,
+               shape = 23, size = 5.5, stroke = 1.6, color = AZUL, fill = ifelse(hembras$sig, AZUL, "white"))
+}
+guardar(p6, "Fig6_Hes5_y_mielina", 11, 4.8)
 
 # ============================================================
 # Fig. S1 — Eje Tgfb1–Jag1–Notch1–Hes5 y marcadores de mielinización (apoyo)
