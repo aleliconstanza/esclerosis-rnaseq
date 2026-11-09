@@ -73,8 +73,21 @@ colData(dds)$grupo_original <- colData(dds)$grupo
 colData(dds)$grupo_biologico <- clasificar_grupo(colData(dds)$grupo_original)
 colData(dds)$grupo_biologico <- factor(colData(dds)$grupo_biologico)
 
+# Tejido como covariable (db5 = corteza; db5_cchp = cuerpo calloso / hipocampo).
+# Las muestras sin sufijo de tejido (db9, db11) quedan como "Total".
+colData(dds)$tejido <- case_when(
+  str_detect(tolower(colData(dds)$grupo_original), "cx$") ~ "Corteza",
+  str_detect(tolower(colData(dds)$grupo_original), "hp$") ~ "Hipocampo",
+  str_detect(tolower(colData(dds)$grupo_original), "cc$") ~ "CuerpoCalloso",
+  TRUE ~ "Total"
+)
+colData(dds)$tejido <- factor(colData(dds)$tejido)
+
 cat("\nDistribución de grupos biológicos:\n")
 print(table(colData(dds)$dataset, colData(dds)$grupo_biologico, useNA = "ifany"))
+
+cat("\nTejido por grupo biológico:\n")
+print(table(colData(dds)$grupo_biologico, colData(dds)$tejido))
 
 if (any(is.na(colData(dds)$grupo_biologico))) {
   warning("Existen muestras sin grupo biológico clasificado. Revisar la tabla anterior.")

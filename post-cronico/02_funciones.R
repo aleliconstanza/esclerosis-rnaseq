@@ -27,22 +27,32 @@ preparar_deseq <- function(dds_obj, grupo_ref, grupo_comp) {
     warning("Hay menos de dos muestras en uno de los grupos; interpretar con mucha cautela.")
   }
 
-  if (nlevels(dds_sub$dataset) > 1) {
-    datos_modelo <- as.data.frame(colData(dds_sub))
-    matriz_ajustada <- model.matrix(
-      ~ dataset + grupo_biologico,
-      data = datos_modelo
-    )
-    rango_completo <- qr(matriz_ajustada)$rank == ncol(matriz_ajustada)
-
-    if (rango_completo) {
-      design(dds_sub) <- ~ dataset + grupo_biologico
-    } else {
-      design(dds_sub) <- ~ grupo_biologico
-    }
-  } else {
-    design(dds_sub) <- ~ grupo_biologico
+  # Diseño: se prueban modelos de más a menos completo y se usa el primero
+  # con rango completo. Cada covariable entra solo si tiene >1 nivel y sin NA.
+  datos_modelo <- as.data.frame(colData(dds_sub))
+  covariable_valida <- function(v) {
+    v %in% names(datos_modelo) && !any(is.na(datos_modelo[[v]])) &&
+      length(unique(datos_modelo[[v]])) > 1
   }
+  candidatos <- list(c("dataset", "tejido"), c("tejido"), c("dataset"), character(0))
+  if (!isTRUE(config$usar_tejido_en_diseno)) candidatos <- list(c("dataset"), character(0))
+
+  formula_final <- ~ grupo_biologico
+  for (covs in candidatos) {
+    if (!all(vapply(covs, covariable_valida, logical(1)))) next
+    for (v in covs) datos_modelo[[v]] <- droplevels(factor(datos_modelo[[v]]))
+    f <- as.formula(paste("~", paste(c(covs, "grupo_biologico"), collapse = " + ")))
+    mm <- model.matrix(f, data = datos_modelo)
+    if (qr(mm)$rank == ncol(mm)) {
+      for (v in covs) colData(dds_sub)[[v]] <- datos_modelo[[v]]
+      formula_final <- f
+      break
+    }
+  }
+  design(dds_sub) <- formula_final
+  cat("Diseño usado:", deparse(formula_final), "\n")
+  if (!exists("disenos_usados", envir = .GlobalEnv)) assign("disenos_usados", list(), envir = .GlobalEnv)
+  disenos_usados[[paste(grupo_comp, "vs", grupo_ref)]] <<- deparse(formula_final)
 
   return(dds_sub)
 }
@@ -100,6 +110,7 @@ crear_ranking <- function(res_entrez) {
 
 ejecutar_GO <- function(gene_list) {
   cat("Ejecutando GSEA GO BP...\n")
+  set.seed(config$semilla)
   gseGO(
     geneList = gene_list,
     OrgDb = org.Mm.eg.db,
@@ -115,6 +126,7 @@ ejecutar_GO <- function(gene_list) {
 
 ejecutar_KEGG <- function(gene_list) {
   cat("Ejecutando GSEA KEGG...\n")
+  set.seed(config$semilla)
   gseKEGG(
     geneList = gene_list,
     organism = "mmu",

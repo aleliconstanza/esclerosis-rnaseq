@@ -21,6 +21,8 @@ suppressPackageStartupMessages({
 config <- list(
   organismo = "mouse",
   padj_significativo = 0.05,
+  semilla = 123,                 # semilla fija para GSEA (permutaciones reproducibles)
+  usar_tejido_en_diseno = TRUE,  # agrega 'tejido' como covariable cuando el modelo lo permite
   gsea_pvalueCutoff = 1,
   minGSSize = 5,
   maxGSSize = 1000,

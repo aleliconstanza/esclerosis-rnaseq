@@ -90,7 +90,7 @@ for (nombre_comp in names(comparaciones_extendidas)) {
     procesos_GO = nrow(go_exportar),
     rutas_KEGG = nrow(kegg_exportar),
     genes_en_procesos = nrow(genes_procesos),
-    genes_inflamatorios_en_procesos = sum(genes_procesos$inflamatorio == "Si", na.rm = TRUE),
+    genes_inflamatorios_en_procesos = sum(genes_procesos$inflamatorio == "Sí", na.rm = TRUE),
     stringsAsFactors = FALSE
   )
 

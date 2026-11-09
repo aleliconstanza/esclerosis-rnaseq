@@ -22,3 +22,10 @@ cat("\n============================================================\n")
 cat("Pipeline extendido (tejido + sexo) finalizado.\n")
 cat("Resultados en resultados/excel, resultados/tablas, resultados/figuras\n")
 cat("============================================================\n")
+
+if (exists("disenos_usados")) {
+  write.csv(
+    data.frame(comparacion = names(disenos_usados), diseno = unlist(disenos_usados)),
+    file.path(config$carpeta_tablas, "disenos_usados_extendido.csv"), row.names = FALSE
+  )
+}

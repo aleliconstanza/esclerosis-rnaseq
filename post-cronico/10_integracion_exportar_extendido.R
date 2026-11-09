@@ -17,7 +17,7 @@ tabla_genes_en_procesos <- bind_rows(lapply(resultados_analisis_ext, function(x)
 
 tabla_genes_inflamatorios <- if (nrow(tabla_genes_en_procesos) > 0) {
   tabla_genes_en_procesos %>%
-    filter(inflamatorio == "Si") %>%
+    filter(inflamatorio == "Sí") %>%
     arrange(desc(n_total_procesos), desc(abs(log2FC)))
 } else {
   data.frame()
@@ -148,7 +148,7 @@ guardar_volcano <- function(nombre_comp) {
   }
 
   etiquetas_literatura <- df %>%
-    filter(cambio %in% c("Sube", "Baja"), inflamatorio == "Si") %>%
+    filter(cambio %in% c("Sube", "Baja"), inflamatorio == "Sí") %>%
     arrange(padj) %>% group_by(cambio) %>% slice_head(n = n_etiquetas) %>% ungroup()
   construir_volcano(etiquetas_literatura, " (genes de literatura)", "_literatura")
 

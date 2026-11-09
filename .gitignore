@@ -52,3 +52,6 @@
 __pycache__/
 # --- Archivos > 50 MB (agregados automáticamente) ---
 /Analisis_KEGG/resultados_v1/
+Rplots.pdf
+post-cronico/logs/
+post-cronico/figuras_poster/salida/
