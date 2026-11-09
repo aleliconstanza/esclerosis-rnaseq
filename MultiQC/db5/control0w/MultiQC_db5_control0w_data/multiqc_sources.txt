@@ -1,0 +1,2 @@
+Module	Section	Sample Name	Source
+fastp	all_sections	SRR21224524	/data/Database/Trimming/db5/control0w/fastqc_trimming/SRR21224524_fastp.json

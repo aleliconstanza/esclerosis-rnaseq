@@ -1,0 +1,8 @@
+Module	Section	Sample Name	Source
+fastp	all_sections	SRR30807405	/data/Database/Trimming/db11/control/fastqc_trimming/SRR30807405_fastp.json
+fastp	all_sections	SRR30807407	/data/Database/Trimming/db11/control/fastqc_trimming/SRR30807407_fastp.json
+fastp	all_sections	SRR30807408	/data/Database/Trimming/db11/control/fastqc_trimming/SRR30807408_fastp.json
+fastp	all_sections	SRR30807409	/data/Database/Trimming/db11/control/fastqc_trimming/SRR30807409_fastp.json
+fastp	all_sections	SRR30807410	/data/Database/Trimming/db11/control/fastqc_trimming/SRR30807410_fastp.json
+fastp	all_sections	SRR30807411	/data/Database/Trimming/db11/control/fastqc_trimming/SRR30807411_fastp.json
+fastp	all_sections	SRR30807414	/data/Database/Trimming/db11/control/fastqc_trimming/SRR30807414_fastp.json

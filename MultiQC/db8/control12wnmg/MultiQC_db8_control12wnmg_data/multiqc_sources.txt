@@ -1,0 +1,3 @@
+Module	Section	Sample Name	Source
+fastp	all_sections	SRR8363507	/data/Database/Trimming/db8/control12wnmg/fastqc_trimming/SRR8363507_fastp.json
+fastp	all_sections	SRR8363541	/data/Database/Trimming/db8/control12wnmg/fastqc_trimming/SRR8363541_fastp.json

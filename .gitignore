@@ -1,0 +1,54 @@
+# --- Lista blanca: se ignora todo y se permiten solo tipos de archivo livianos ---
+*
+!*/
+!.gitignore
+!.gitattributes
+# código
+!*.sh
+!*.R
+!*.r
+!*.Rmd
+!*.qmd
+!*.py
+!*.ipynb
+!*.nf
+!*.config
+!*.smk
+!Snakefile
+!*.m
+# documentación y configuración
+!*.md
+!*.txt
+!*.yml
+!*.yaml
+!*.json
+!*.ini
+!*.cfg
+# tablas (metadata, conteos, resultados livianos; el script excluye las > 50 MB)
+!*.tsv
+!*.csv
+# figuras y reportes (PDF, PNG, SVG, HTML de MultiQC; también con límite de 50 MB)
+!*.pdf
+!*.png
+!*.svg
+!*.html
+# --- Siempre excluidos, aunque coincidan con lo anterior ---
+*.zip
+*.gz
+*.bz2
+*.tar
+*.bam
+*.bai
+*.sam
+*.cram
+*.fastq
+*.fq
+*.sra
+*.h5
+*.rds
+*.RData
+.Rhistory
+.ipynb_checkpoints/
+__pycache__/
+# --- Archivos > 50 MB (agregados automáticamente) ---
+/Analisis_KEGG/resultados_v1/

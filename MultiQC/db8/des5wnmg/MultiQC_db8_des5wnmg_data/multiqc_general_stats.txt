@@ -1,0 +1,4 @@
+Sample	fastp-pct_duplication	fastp-after_filtering_q30_rate	fastp-after_filtering_q30_bases	fastp-filtering_result_passed_filter_reads	fastp-after_filtering_gc_content	fastp-pct_surviving_reads	fastp-pct_surviving_bases	fastp-before_filtering_read1_mean_length
+SRR8363509	77.5454	86.3497	270.176091	6.1352079999999996	47.7198	99.9318499291135	99.92871523791945	51.0
+SRR8363527	74.90440000000001	85.7802	162.758411	3.720493	49.8004	99.93142711639878	99.9281202099824	51.0
+SRR8363539	79.4381	86.7719	195.33956899999998	4.414285	49.5604	99.94113498540261	99.93670057642211	51.0

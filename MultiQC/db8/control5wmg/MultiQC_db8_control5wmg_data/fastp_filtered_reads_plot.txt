@@ -1,0 +1,4 @@
+Sample	Passed Filter	Low Quality	Too Many N	Low Complexity	Too Short	Too Long
+SRR8363504	4051787.0	3100.0	36.0	nan	0.0	0.0
+SRR8363514	3730842.0	3262.0	43.0	nan	0.0	0.0
+SRR8363522	3392806.0	2715.0	39.0	nan	0.0	0.0

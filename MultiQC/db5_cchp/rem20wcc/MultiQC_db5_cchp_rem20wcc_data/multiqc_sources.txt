@@ -1,0 +1,7 @@
+Module	Section	Sample Name	Source
+fastp	all_sections	SRR21224463	/data/Database/Trimming/db5_cchp/rem20wcc/fastqc_trimming/SRR21224463_fastp.json
+fastp	all_sections	SRR21224464	/data/Database/Trimming/db5_cchp/rem20wcc/fastqc_trimming/SRR21224464_fastp.json
+fastp	all_sections	SRR21224465	/data/Database/Trimming/db5_cchp/rem20wcc/fastqc_trimming/SRR21224465_fastp.json
+fastp	all_sections	SRR21224466	/data/Database/Trimming/db5_cchp/rem20wcc/fastqc_trimming/SRR21224466_fastp.json
+fastp	all_sections	SRR21224467	/data/Database/Trimming/db5_cchp/rem20wcc/fastqc_trimming/SRR21224467_fastp.json
+fastp	all_sections	SRR21224468	/data/Database/Trimming/db5_cchp/rem20wcc/fastqc_trimming/SRR21224468_fastp.json
