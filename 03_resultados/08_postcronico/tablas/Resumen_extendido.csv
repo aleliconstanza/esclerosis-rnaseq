@@ -1,0 +1,10 @@
+"comparacion";"grupo_referencia";"grupo_comparado";"genes_analizados";"genes_ranking_gsea";"genes_diferenciales";"genes_sube";"genes_baja";"procesos_GO";"rutas_KEGG";"genes_en_procesos";"genes_inflamatorios_en_procesos"
+"Postcronico16w_Corteza_vs_Control24w_Corteza";"Control_24w_Corteza";"Postcronico_16w_Corteza";35083;23095;7;5;2;9017;362;9419;69
+"Postcronico16w_Hipocampo_vs_Control24w_Hipocampo";"Control_24w_Hipocampo";"Postcronico_16w_Hipocampo";35083;21288;10;6;4;8959;362;9310;70
+"Postcronico16w_CuerpoCalloso_vs_Control24w_CuerpoCalloso";"Control_24w_CuerpoCalloso";"Postcronico_16w_CuerpoCalloso";35083;21213;498;441;57;8972;361;8985;60
+"Postcronico20w_Corteza_vs_Control24w_Corteza";"Control_24w_Corteza";"Postcronico_20w_Corteza";35083;23155;1;1;0;9021;362;9475;65
+"Postcronico20w_Hipocampo_vs_Control24w_Hipocampo";"Control_24w_Hipocampo";"Postcronico_20w_Hipocampo";35083;20990;158;89;69;8945;362;9015;59
+"Postcronico20w_CuerpoCalloso_vs_Control24w_CuerpoCalloso";"Control_24w_CuerpoCalloso";"Postcronico_20w_CuerpoCalloso";35083;21378;530;442;88;8975;362;9064;62
+"Postcronico24w_Hipocampo_vs_Control24w_Hipocampo";"Control_24w_Hipocampo";"Postcronico_24w_Hipocampo";35083;21096;20;10;10;8962;362;9233;65
+"Postcronico24w_CuerpoCalloso_vs_Control24w_CuerpoCalloso";"Control_24w_CuerpoCalloso";"Postcronico_24w_CuerpoCalloso";35083;21173;559;388;171;8959;362;9020;72
+"Postcronico24w_hembras_vs_Control24w_hembras";"Control_24w_F";"Postcronico_24w_F";35083;22897;153;86;67;9014;362;9345;67

@@ -1,0 +1,7 @@
+"comparacion","diseno"
+"Agudo_5w vs Control_0w","~dataset + grupo_biologico"
+"Cronico_12w vs Control_0w","~dataset + grupo_biologico"
+"Cronico_12w vs Agudo_5w","~grupo_biologico"
+"Postcronico_16w vs Control_24w","~tejido + grupo_biologico"
+"Postcronico_20w vs Control_24w","~tejido + grupo_biologico"
+"Postcronico_24w vs Control_24w","~tejido + grupo_biologico"

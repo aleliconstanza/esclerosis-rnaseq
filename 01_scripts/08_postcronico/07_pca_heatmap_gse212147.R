@@ -30,8 +30,9 @@ vsd_sin_batch <- readRDS(config$ruta_vsd_sin_batch)
 agregar_metadata_dds <- function(vsd_obj, dds_obj) {
   idx <- match(colnames(vsd_obj), colnames(dds_obj))
   if (any(is.na(idx))) {
-    stop("Hay muestras en vsd que no aparecen en dds_extendido. Revisa que",
-         " ambos objetos vengan del mismo dds_preparado.rds.")
+    cat("Se omiten", sum(is.na(idx)), "muestras de vsd que no estan en dds (p. ej., db8 excluido)\n")
+    vsd_obj <- vsd_obj[, !is.na(idx)]
+    idx <- idx[!is.na(idx)]
   }
   colData(vsd_obj)$grupo_biologico <- colData(dds_obj)$grupo_biologico[idx]
   colData(vsd_obj)$tejido <- colData(dds_obj)$tejido[idx]
