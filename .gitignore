@@ -53,4 +53,4 @@ __pycache__/
 # --- Archivos > 50 MB (agregados automáticamente) ---
 Rplots.pdf
 /disco
-intermedios/08_postcronico/logs/
+02_intermedios/08_postcronico/logs/

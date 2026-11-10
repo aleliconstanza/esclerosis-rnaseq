@@ -44,7 +44,7 @@ if ("grupo_sexo" %in% names(colData(dds)) &&
   )
 } else {
   cat("\n[AVISO] No hay grupo_sexo con Postcronico_24w_F/Control_24w_F.\n")
-  cat("        Revisa que scripts/00_config/metadata/metadata_sexo.csv exista y tenga hembras\n")
+  cat("        Revisa que 01_scripts/00_config/metadata/metadata_sexo.csv exista y tenga hembras\n")
   cat("        marcadas en ambos grupos (ver 06_tejido_y_sexo.R).\n")
 }
 

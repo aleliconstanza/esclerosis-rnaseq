@@ -4,7 +4,7 @@
 # del bloqueo diferenciativo de OPCs durante la remielinización
 # post-crónica inducida por cuprizona".
 #
-# Uso (desde scripts/09_figuras_poster/):
+# Uso (desde 01_scripts/09_figuras_poster/):
 #   Rscript figuras_poster.R
 #   Rscript figuras_poster/figuras_poster.R <tablas> <metadata_muestras> <metadata_sexo> <salida>
 #
@@ -18,15 +18,15 @@ suppressPackageStartupMessages({
 })
 
 args <- commandArgs(trailingOnly = TRUE)
-ruta_tablas   <- if (length(args) >= 1) args[1] else "../../resultados/08_postcronico/tablas"
-ruta_metadata <- if (length(args) >= 2) args[2] else "../../intermedios/06_normalizacion/metadata_muestras.csv"
+ruta_tablas   <- if (length(args) >= 1) args[1] else "../../03_resultados/08_postcronico/tablas"
+ruta_metadata <- if (length(args) >= 2) args[2] else "../../02_intermedios/06_normalizacion/metadata_muestras.csv"
 ruta_sexo     <- if (length(args) >= 3) args[3] else "../00_config/metadata/metadata_sexo.csv"
-ruta_salida   <- if (length(args) >= 4) args[4] else "../../resultados/09_figuras_poster"
+ruta_salida   <- if (length(args) >= 4) args[4] else "../../03_resultados/09_figuras_poster"
 ruta_categorias <- "../00_config/genes_literatura/categorias_genes_curados.csv"
 # Si aún no hay corrida definitiva del post-crónico, usa la corrida anterior (07_analisis_global)
 if (length(args) == 0 && !file.exists(file.path(ruta_tablas, "KEGG.csv"))) {
-  ruta_tablas <- "../../resultados/07_analisis_global/tablas"
-  cat("AVISO: no hay tablas en resultados/08_postcronico; uso", ruta_tablas, "\n")
+  ruta_tablas <- "../../03_resultados/07_analisis_global/tablas"
+  cat("AVISO: no hay tablas en 03_resultados/08_postcronico; uso", ruta_tablas, "\n")
 }
 dir.create(ruta_salida, showWarnings = FALSE, recursive = TRUE)
 

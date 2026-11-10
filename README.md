@@ -7,10 +7,10 @@ Responsable: Alelí Galaz Meléndez · USACH
 
 | Carpeta | Contenido |
 |---|---|
-| `scripts/00_config/` | Metadata, lista de genes curados y `decisiones.md` |
-| `scripts/01_…09_/` | Código de cada etapa, numerado en orden de ejecución |
-| `intermedios/01_…08_/` | Salidas intermedias: reportes fastp y MultiQC, logs de STAR, conteos, anotación, objetos de normalización |
-| `resultados/06_…09_/` | Tablas y figuras finales |
+| `01_scripts/00_config/` | Metadata, lista de genes curados y `decisiones.md` |
+| `01_scripts/01_…09_/` | Código de cada etapa, numerado en orden de ejecución |
+| `02_intermedios/01_…08_/` | Salidas intermedias: reportes fastp y MultiQC, logs de STAR, conteos, anotación, objetos de normalización |
+| `03_resultados/06_…09_/` | Tablas y figuras finales |
 | `disco/` | Acceso directo a `/data/Database` (FASTQ, BAM, índices, `.rds`; no está en Git) |
 
 | Etapa | Scripts | Intermedios | Resultados |
@@ -28,9 +28,9 @@ Responsable: Alelí Galaz Meléndez · USACH
 ## Cómo correr
 
 ```bash
-bash scripts/correr_postcronico.sh            # análisis post-crónico + figuras
-bash scripts/correr_postcronico.sh figuras    # solo figuras
+bash 01_scripts/correr_postcronico.sh            # análisis post-crónico + figuras
+bash 01_scripts/correr_postcronico.sh figuras    # solo figuras
 ```
 
 ## Pendiente
-- Los scripts de las etapas 01–06 todavía usan rutas absolutas de `/data/Database`. Para reproducibilidad completa hay que pasarlos a rutas relativas (`disco/`, `intermedios/`).
+- Los scripts de las etapas 01–06 todavía usan rutas absolutas de `/data/Database`. Para reproducibilidad completa hay que pasarlos a rutas relativas (`disco/`, `02_intermedios/`).

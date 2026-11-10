@@ -20,7 +20,7 @@ source("10_integracion_exportar_extendido.R")  # Excel/CSV/figuras
 
 cat("\n============================================================\n")
 cat("Pipeline extendido (tejido + sexo) finalizado.\n")
-cat("Resultados en resultados/08_postcronico/\n")
+cat("Resultados en 03_resultados/08_postcronico/\n")
 cat("============================================================\n")
 
 if (exists("disenos_usados")) {
