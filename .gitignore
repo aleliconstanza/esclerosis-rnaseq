@@ -55,3 +55,5 @@ __pycache__/
 Rplots.pdf
 post-cronico/logs/
 post-cronico/figuras_poster/salida/
+/disco
+post-cronico/datos/dds_normalizado.rds
