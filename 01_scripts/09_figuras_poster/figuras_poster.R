@@ -166,10 +166,16 @@ terminos_mito <- tribble(
 p2 <- dotplot_rutas(gsea, terminos_mito) +
   facet_grid(eje ~ ., scales = "free_y", space = "free_y", switch = "y") +
   geom_vline(xintercept = 1.5, linetype = "dashed", color = OXIDO, linewidth = 1) +
-  geom_text(data = data.frame(eje = terminos_mito$eje[1]), aes(x = 1.55, y = Inf), label = "  retiro →",
-            inherit.aes = FALSE, hjust = 0, vjust = 1.4, color = OXIDO, size = 6.5, fontface = "italic") +
-  theme(strip.placement = "outside", strip.text.y.left = element_text(angle = 90, hjust = 0.5, size = 18))
-guardar(p2, "Fig2_rutas_mitocondriales_tiempo", 21, 6.2)
+  geom_text(data = data.frame(eje = terminos_mito$eje[1]), aes(x = 1.5, y = 3.5), label = "retiro",
+            inherit.aes = FALSE, angle = 90, vjust = -0.5, color = OXIDO, size = 6, fontface = "italic") +
+  scale_x_discrete(expand = expansion(add = 0.45)) +
+  scale_size_continuous(range = c(3, 10), limits = c(0, 10), name = expression(-log[10]~padj), breaks = c(2, 5, 10)) +
+  guides(fill = guide_colorbar(order = 1, barheight = unit(3, "cm"))) +
+  theme(strip.placement = "outside", strip.text.y.left = element_text(angle = 90, hjust = 0.5, size = 18),
+        legend.title = element_text(size = 16), legend.text = element_text(size = 14),
+        legend.spacing.y = unit(0.5, "cm"), legend.margin = margin(0, 0, 0, 0),
+        legend.box.margin = margin(0, 0, 0, -10), plot.margin = margin(5, 5, 5, 5))
+guardar(p2, "Fig2_rutas_mitocondriales_tiempo", 13, 6.2)
 
 # ============================================================
 # Fig. 3 — DEGs por ventana
@@ -224,10 +230,10 @@ curados <- deseq %>%
   etiquetar() %>% mutate(ventana = droplevels(ventana),
                          estrella = ifelse(!is.na(padj) & padj < PADJ, "*", ""),
                          categoria = recode(coalesce(categoria, "Otros"),
-                                            "Matriz extracelular" = "MEC", "Astrogliosis" = "Astrogliosis",
+                                            "Matriz extracelular" = "ECM", "Astrogliosis" = "Astrogliosis",
                                             "Linaje oligodendroglial" = "OPC / OL",
                                             "Inflamación y microglía" = "Inflam.", "Neuronal / otros" = "Otros"),
-                         categoria = factor(categoria, levels = c("MEC", "Astrogliosis", "OPC / OL", "Inflam.", "Otros")))
+                         categoria = factor(categoria, levels = c("ECM", "Astrogliosis", "OPC / OL", "Inflam.", "Otros")))
 cat("  genes curados significativos:", n_distinct(curados$simbolo), "\n")
 lim5 <- max(1, ceiling(max(abs(curados$log2FoldChange), na.rm = TRUE)))
 curados <- curados %>% mutate(ventana_r = factor(ventana, levels = rev(levels(ventana))))
@@ -270,6 +276,9 @@ etiq6 <- d6 %>% filter(x == max(x)) %>% arrange(log2FoldChange) %>%
   mutate(y_lab = log2FoldChange)
 sep <- 0.17
 for (i in seq_len(nrow(etiq6))[-1]) etiq6$y_lab[i] <- max(etiq6$y_lab[i], etiq6$y_lab[i - 1] + sep)
+# La etiqueta de Hes5 va a la derecha del rombo azul (solo hembras) para no superponerse
+etiq6$x_lab <- etiq6$x + 0.12
+if (!is.null(hembras)) etiq6$x_lab[etiq6$simbolo == "Hes5"] <- 4.36
 p6 <- ggplot(d6, aes(x, log2FoldChange, color = simbolo, group = simbolo)) +
   geom_hline(yintercept = 0, linetype = "dashed", color = GRIS) +
   geom_vline(xintercept = 1.5, linetype = "dashed", color = OXIDO) +
@@ -279,12 +288,12 @@ p6 <- ggplot(d6, aes(x, log2FoldChange, color = simbolo, group = simbolo)) +
   geom_errorbar(data = filter(d6, simbolo == "Hes5"),
                 aes(ymin = log2FoldChange - lfcSE, ymax = log2FoldChange + lfcSE), width = 0.08, linewidth = 1) +
   geom_point(aes(fill = ifelse(sig, as.character(simbolo), "ns")), shape = 21, size = 5.5, stroke = 1.6) +
-  geom_text(data = etiq6, aes(x = x + 0.12, y = y_lab, label = simbolo), hjust = 0, size = 6.5,
+  geom_text(data = etiq6, aes(x = x_lab, y = y_lab, label = simbolo), hjust = 0, size = 6.5,
             fontface = "bold.italic", show.legend = FALSE) +
   scale_linewidth_manual(values = c(`TRUE` = 2, `FALSE` = 1), guide = "none") +
   scale_color_manual(values = col6, guide = "none") +
   scale_fill_manual(values = c(col6, ns = "white"), guide = "none") +
-  scale_x_continuous(breaks = 1:4, labels = levels(d6$ventana), expand = expansion(add = c(0.3, 0.7))) +
+  scale_x_continuous(breaks = 1:4, labels = levels(d6$ventana), expand = expansion(add = c(0.3, 0.85))) +
   labs(x = NULL, y = expression(bold(log[2]*FC~"vs control"))) + tema +
   theme(axis.title.y = element_text(size = 20), axis.text.x = element_text(size = 18))
 if (!is.null(hembras)) {
