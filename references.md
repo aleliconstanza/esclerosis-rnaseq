@@ -5,8 +5,6 @@
 Alelí Galaz Meléndez · Ingeniería Civil Biomédica, USACH
 Sesión 2 · miércoles 18 de noviembre de 2026
 
-Código y resultados: [esclerosis-rnaseq](https://github.com/aleliconstanza/esclerosis-rnaseq)
-
 ---
 
 ## Datos
